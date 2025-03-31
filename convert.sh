@@ -1,0 +1,1 @@
+./node_modules/.bin/mmdc -i template.mmd -o output.png -t dark -b transparent

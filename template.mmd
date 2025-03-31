@@ -1,0 +1,26 @@
+sequenceDiagram
+    participant PA as Pessoa A
+    participant TIM as Operadora A (TIM)
+    participant SP as Asterisk SIP-Proxy+CTI (SP)
+    participant API as Plataforma cVortex API
+    participant AV as Asterisk+CTI (AV)
+    participant EXT as API Externas
+    participant HD as Asterisk+CTI (HD)
+    participant STUN as STUN (HD)
+    participant CVH as Plataforma cVortex (HD)
+    participant PB as Pessoa B
+
+    PA->>TIM: Cliente final efetua ligação para um número cVortex
+    TIM->>SP: Operadora encaminha chamada - RTP mantido / link privado
+    SP->>API: Criar caso
+    SP->>AV: Encaminha chamada URA
+    AV->>EXT: Consulta APIs Externas (opcional)
+    AV->>API: Ampliar informações Caso
+    AV->>SP: Devolve chamada SP
+    SP->>HD: Encaminha chamada para HD
+    HD->>API: Enfileira chamada
+    API->>HD: Solicita encaminhar chamada para agente (Pessoa B)
+    
+    Note over HD,PB: Link de Internet
+    HD->>STUN: Descobre o peer Pessoa B via STUN
+    HD->>PB: Efetua ligação webphone da pessoa B
